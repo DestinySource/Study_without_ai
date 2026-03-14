@@ -13,7 +13,6 @@ public class VisitService {
     private VisitRepository visitRepository;
 
     public Visit logNewVisit(String referrer) {
-        // We maken hier het object aan en zetten de tijd op 'nu'
         Visit visit = new Visit(referrer, LocalDateTime.now());
         return visitRepository.save(visit);
     }
