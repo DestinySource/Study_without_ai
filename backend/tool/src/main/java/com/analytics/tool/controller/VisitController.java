@@ -18,6 +18,7 @@ public class VisitController {
     @PostMapping("/log-visit")
     public Visit logVisit(@RequestBody Map<String, String> payload) {
         String referrer = payload.get("referrer");
-        return visitService.logNewVisit(referrer);
+        String source = payload.get("source");
+        return visitService.logNewVisit(referrer, source);
     }
 }

@@ -12,8 +12,12 @@ public class VisitService {
     @Autowired
     private VisitRepository visitRepository;
 
-    public Visit logNewVisit(String referrer) {
-        Visit visit = new Visit(referrer, LocalDateTime.now());
+    public Visit logNewVisit(String referrer, String source) {
+        Visit visit = new Visit();
+        visit.setReferrer(referrer);
+        visit.setSource(source != null ? source : "direct");
+        visit.setTimestamp(LocalDateTime.now());
+
         return visitRepository.save(visit);
     }
 }

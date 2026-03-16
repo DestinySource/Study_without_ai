@@ -15,12 +15,14 @@ public class Visit {
     private Long id;
 
     private String referrer;
+    private String source;
     private LocalDateTime timestamp;
 
     public Visit() {}
 
     public Visit(String referrer, LocalDateTime timestamp) {
         this.referrer = referrer;
+        this.source = source;
         this.timestamp = timestamp;
     }
 
@@ -31,6 +33,10 @@ public class Visit {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getSource() { return source; }
+
+    public void setSource(String source) { this.source = source; }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
