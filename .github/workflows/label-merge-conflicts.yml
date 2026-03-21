@@ -1,0 +1,20 @@
+on:
+  pull_request_target:
+    types: [ opened, synchronize, reopened ]
+    branches: [ beta ]
+
+jobs:
+  conflicts:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Update PRs with conflict labels
+        uses: eps1lon/actions-label-merge-conflict@v3
+        with:
+          dirtyLabel: "Merge Conflicts"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          commentOnDirty: "This pull request has conflicts with the base branch \"beta\". Please resolve those so we can test out your changes."
+          commentOnClean: "Conflicts have been resolved! 🎉"
