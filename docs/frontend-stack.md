@@ -3,19 +3,20 @@ Een overzicht van de geïnstalleerde libraries in onze Vue 3 project, wat ze doe
 
 ---
 
-## 1. Tailwind CSS
+## 1. Sass (SCSS)
 
 **Installatie:**
 ```bash
-npm install -D tailwindcss @tailwindcss/vite
+npm install -D sass
 ```
 
 **Wat is het?**
-<br>Een CSS framework waarmee je pagina's stylet via kant-en-klare klassen die je direct in je HTML schrijft, zoals kleur,
-spacing en lettergrootte. Je hoeft zelf geen aparte CSS bestanden bij te houden.
+<br>Gewone CSS wordt uitgebreid met functies zoals variabelen, nesting, mixins en herbruikbare stijlen. SCSS 
+bestanden worden gecompileerd naar gewone CSS.
 
 **Wanneer gebruik je het?**
-<br>Voor alle visuele styling van je project. layouts.
+<br>Voor alle visuele styling van het project. Gebruik .scss bestanden coor globale bestanden en en `lang="scss"` 
+in componenten voor component-specifieke styling.
 ---
 
 ## 2. PrimeVue
@@ -26,8 +27,8 @@ npm install primevue @primevue/themes
 ```
 
 **Wat is het?**
-<br>Een bibliotheek met kant-en-klare UI componenten voor Vue, zoals datatables, dropdowns, datepickers, modals en knoppen. 
-In unstyled mode kun je alles zelf opmaken met Tailwind zodat het bij de kleuren van de pagina past.
+<br>Een bibliotheek met kant-en-klare UI componenten voor Vue, zoals datatables, dropdowns, datepickers, modals en 
+knoppen. In unstyled mode kun je alles zelf opmaken met Tailwind zodat het bij de kleuren van de pagina past.
 
 **Wanneer gebruik je het?**
 <br>Wanneer je UI elementen nodig hebt die je niet zelf wilt bouwen, zoals een tabel met sorteren en filteren, 
