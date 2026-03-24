@@ -22,9 +22,14 @@ public class VisitController {
         return visitService.logNewVisit(referrer, source);
     }
 
-    @GetMapping("/visit-country")
+    @GetMapping("/country")
     public String getVisitCountry() {
         return visitService.getVisitCountry();
+    }
+
+    @GetMapping("/flag")
+    public String getVisitFlag() {
+        return visitService.getVisitFlag();
     }
 
 }
