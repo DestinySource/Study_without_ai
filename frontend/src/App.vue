@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { UserService } from "./service/UserService";
 
 const status = ref('Bezoek wordt gelogd...');
+const land = ref('land: onbekend');
+const flag = ref('Flag: onbekend')
+const userService = new UserService();
 
 onMounted(async () => {
   // 1. Check eerst de URL parameters (bijv. ?source=youtube)
@@ -35,6 +39,12 @@ onMounted(async () => {
 
     if (response.ok) {
       status.value = `Bezoek gelogd als: ${finalReferrer}`;
+      const country = await userService.getUserCountry();
+      const flag = await userService.getUserFlag();
+      land.value = `${country}`;
+      const imgElement = document.getElementById('flag');
+      imgElement.src = flag;
+      
     } else {
       status.value = 'Fout bij het opslaan van bezoek.';
     }
@@ -49,6 +59,8 @@ onMounted(async () => {
   <div class="container">
     <h1>Web Analytics Tool 🚀</h1>
     <p>Status: <strong>{{ status }}</strong></p>
+    <p v-if="land">Bezoekers land: <strong>{{land}}</strong></p>
+    <span>Flag: </span><img v-if="flag" id="flag" src="" alt="flag">
     <hr />
     <p>Deze pagina stuurt automatisch je herkomst door naar de Spring Boot backend.</p>
     <p class="help-text">Tip: Test met <code>?source=youtube</code> achter je URL!</p>
