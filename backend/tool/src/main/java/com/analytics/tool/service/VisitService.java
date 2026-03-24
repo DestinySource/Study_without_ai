@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 @Service
@@ -29,10 +28,20 @@ public class VisitService {
         URI uri = URI.create(url);
 
         try (java.util.Scanner s = new java.util.Scanner(uri.toURL().openStream())) {
-            String country = s.hasNext() ? s.next().trim() : "unknown";
-            return "My current country is " + country;
+            return s.hasNext() ? s.next().trim() : "unknown";
         } catch (java.io.IOException e) {
             return "My current country is unknown";
+        }
+    }
+
+    public String getVisitFlag() {
+        String url = "https://api.ipdata.co/flag?api-key=2b1cc91904281119589b2d02a698106cf58f59c4e018b1a57bfe9ed6";
+        URI uri = URI.create(url);
+
+        try (java.util.Scanner s = new java.util.Scanner(uri.toURL().openStream())) {
+            return s.hasNext() ? s.next().trim() : "unknown";
+        } catch (java.io.IOException e) {
+            return "My current flag is unknown";
         }
     }
 }
