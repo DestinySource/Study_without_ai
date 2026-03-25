@@ -59,8 +59,10 @@ onMounted(async () => {
   <div class="container">
     <h1>Web Analytics Tool 🚀</h1>
     <p>Status: <strong>{{ status }}</strong></p>
-    <p v-if="land">Bezoekers land: <strong>{{land}}</strong></p>
-    <span>Flag: </span><img v-if="flag" id="flag" src="" alt="flag">
+    <p v-if="land">
+      Bezoekers land: <strong>{{land}}</strong>&nbsp;
+      <img v-if="flag" id="flag" src="" alt="flag">
+    </p>
     <hr />
     <p>Deze pagina stuurt automatisch je herkomst door naar de Spring Boot backend.</p>
     <p class="help-text">Tip: Test met <code>?source=youtube</code> achter je URL!</p>
