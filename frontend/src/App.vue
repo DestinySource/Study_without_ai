@@ -26,7 +26,7 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/log-visit', {
+    const response = await fetch(import.meta.env.VITE_API_URL + '/api/log-visit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ onMounted(async () => {
     <p>Status: <strong>{{ status }}</strong></p>
     <p v-if="land">
       Bezoekers land: <strong>{{land}}</strong>&nbsp;
-      <img v-if="flag" id="flag" src="" alt="flag">
+      <img v-if="flag" id="flag" :src="flag" alt="flag">
     </p>
     <hr />
     <p>Deze pagina stuurt automatisch je herkomst door naar de Spring Boot backend.</p>
