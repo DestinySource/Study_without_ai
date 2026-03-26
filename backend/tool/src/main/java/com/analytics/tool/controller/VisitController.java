@@ -21,4 +21,15 @@ public class VisitController {
         String source = payload.get("source");
         return visitService.logNewVisit(referrer, source);
     }
+
+    @GetMapping("/country")
+    public String getVisitCountry() {
+        return visitService.getVisitCountry();
+    }
+
+    @GetMapping("/flag")
+    public String getVisitFlag() {
+        return visitService.getVisitFlag();
+    }
+
 }
