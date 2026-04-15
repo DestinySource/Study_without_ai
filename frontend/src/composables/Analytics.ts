@@ -15,7 +15,7 @@ export function Analytics() {
             const payload = JSON.stringify(buildPayload())
             const blob = new Blob([payload], {type: 'application/json'});
             navigator.sendBeacon(
-                'http://localhost:8080/api/log-visit',
+                'https://localhost:8443/api/log-visit',
                 blob
             );
         });
@@ -38,7 +38,7 @@ export function Analytics() {
 
     // Functie voor handmatige test-verzendingen
     const sendManualVisit = async (forceBounce: boolean) => {
-        const response = await fetch('http://localhost:8080/api/log-visit', {
+        const response = await fetch('https://localhost:8443/api/log-visit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(buildPayload(forceBounce)),

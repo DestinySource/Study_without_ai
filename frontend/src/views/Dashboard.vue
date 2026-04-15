@@ -23,9 +23,9 @@ async function loadStats() {
   error.value = '';
   try {
     const [statsRes, pagesRes, sourcesRes] = await Promise.all([
-      fetch('http://localhost:8080/api/analytics'),
-      fetch('http://localhost:8080/api/analytics/pages'),
-      fetch('http://localhost:8080/api/analytics/sources'),
+      fetch('https://localhost:8443/api/analytics'),
+      fetch('https://localhost:8443/api/analytics/pages'),
+      fetch('https://localhost:8443/api/analytics/sources'),
     ]);
 
     stats.value  = await statsRes.json();
