@@ -63,3 +63,4 @@ dist-ssr
 *.jks
 
 data/*.db
+data/*.mv.db
