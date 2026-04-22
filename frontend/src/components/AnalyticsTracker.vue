@@ -59,7 +59,7 @@ async function handleTest(forceBounce: boolean) {
   display: inline-block;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  color: #00e5a0;
+  color: white;
   letter-spacing: 0.15em;
   border: 0.5px solid #00e5a0;
   padding: 4px 12px;
@@ -77,7 +77,7 @@ h1 {
 .status-line {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
-  color: #666;
+  color: white;
   margin-bottom: 32px;
 }
 
@@ -95,7 +95,7 @@ h1 {
 .block-title {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  color: #666;
+  color: white;
   letter-spacing: 0.1em;
   margin-bottom: 8px;
 }

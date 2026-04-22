@@ -53,7 +53,7 @@ body {
 .nav-links a {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
-  color: #666;
+  color: white;
   text-decoration: none;
   letter-spacing: 0.05em;
   transition: color 0.15s;
