@@ -61,6 +61,7 @@ dist-ssr
 *.pem
 *.p12
 *.jks
+*.db
 
 data/*.db
 data/*.mv.db
