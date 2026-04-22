@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Backend specifieke bestanden
+tool/src/main/resources/application.properties
+tool/src/main/resources/application-dev.properties
+tool/src/main/resources/keystore.p12
