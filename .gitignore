@@ -56,3 +56,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SSL Certificates and Keystores
+*.pem
+*.p12
+*.jks
+*.db
+
+data/*.db
+data/*.mv.db
