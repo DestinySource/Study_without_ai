@@ -19,7 +19,6 @@ public class AnalyticsService {
     @Autowired
     private PageVisitRepository pageVisitRepository;
 
-    // Bezoek opslaan — conversie van DTO naar Model gebeurt hier
     public void saveVisit(VisitRequestDTO dto) {
         PageVisit visit = new PageVisit();
         visit.setPage(dto.page());
@@ -31,7 +30,6 @@ public class AnalyticsService {
         pageVisitRepository.save(visit);
     }
 
-    // Site statistieken berekenen
     public SiteStatsDTO getSiteStats() {
         long totalVisits  = pageVisitRepository.count();
         long totalBounces = pageVisitRepository.countByIsBounceTrue();

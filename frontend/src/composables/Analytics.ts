@@ -2,9 +2,7 @@ export function Analytics() {
     const sessionStart = Date.now();
     let hasInteracted = false;
 
-    // Initialiseer listeners voor interactie en afsluiten
     const initTracker = () => {
-        // Check of we in een browseromgeving zitten
         if (typeof window === 'undefined') return;
 
         ['click', 'keypress'].forEach(event => {
@@ -21,7 +19,6 @@ export function Analytics() {
         });
     };
 
-    // Bouw de data die we naar de backend sturen
     const buildPayload = (forceBounce?: boolean) => {
         const urlParams = new URLSearchParams(window.location.search);
         const sourceParam = urlParams.get('source');
@@ -36,7 +33,6 @@ export function Analytics() {
         };
     };
 
-    // Functie voor handmatige test-verzendingen
     const sendManualVisit = async (forceBounce: boolean) => {
         const response = await fetch('https://localhost:8443/api/log-visit', {
             method: 'POST',

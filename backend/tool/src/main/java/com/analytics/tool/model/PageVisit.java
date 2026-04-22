@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "page_visits") // Solves the "Cannot resolve table" warning
+@Table(name = "page_visits")
 @Getter
 @Setter
 @NoArgsConstructor
