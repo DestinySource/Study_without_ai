@@ -2,8 +2,25 @@ export function Analytics() {
     const sessionStart = Date.now();
     let hasInteracted = false;
 
+    const getDeviceData = () => {
+        const ua = navigator.userAgent;
+        let browser = "unknown";
+
+        if (ua.includes("Firefox")) browser = "Firefox";
+        else if (ua.includes("Edg")) browser = "Edge";
+        else if (ua.includes("Chrome")) browser = "Chrome";
+        else if (ua.includes("Safari")) browser = "Safari";
+
+        return {
+            browser: browser,
+            os: navigator.platform,
+            device: /Mobi|Android/i.test(ua) ? "Mobile" : "Desktop"
+        };
+    }
     const initTracker = () => {
         if (typeof window === 'undefined') return;
+
+        sendDeviceData();
 
         ['click', 'keypress'].forEach(event => {
             document.addEventListener(event, () => { hasInteracted = true; }, { once: true });
@@ -40,6 +57,18 @@ export function Analytics() {
             body: JSON.stringify(buildPayload(forceBounce)),
         });
         return response.ok;
+    };
+
+    const sendDeviceData = async () => {
+        try {
+            await fetch('https://localhost:8443/api/log-device', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(getDeviceData())
+            });
+        } catch (error) {
+            console.error("Failed to send device data", error);
+        }
     };
 
     return { initTracker, sendManualVisit };

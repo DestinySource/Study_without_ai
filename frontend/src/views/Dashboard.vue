@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import Statcard from '@/components/Statcard.vue';
 import Barchartpanel from '@/components/Barchartpanel.vue';
+import CustomCard from  '@/components/CustomCard.vue';
 
 interface SiteStats {
   totalVisits: number;
@@ -14,25 +15,45 @@ interface BarItem {
   count: number;
 }
 
+const activeBrowserTab = ref('Browser');
 const stats = ref<SiteStats | null>(null);
 const pages = ref<BarItem[]>([]);
 const sources = ref<BarItem[]>([]);
-const error = ref('');
+const browsers = ref<any[]>([]);
 const loading = ref(true);
+const error = ref('');
 
 async function loadStats() {
   loading.value = true;
   error.value = '';
+
+  const iconMap: Record<string, string> = {
+    'Chrome': 'https://www.google.com/s2/favicons?domain=chrome.com&sz=32',
+    'Safari': 'https://cdnjs.cloudflare.com/ajax/libs/browser-logos/74.1.0/safari-ios/safari-ios.svg',
+    'Edge': 'https://cdnjs.cloudflare.com/ajax/libs/browser-logos/74.1.0/edge/edge.svg',
+    'Firefox': 'https://www.google.com/s2/favicons?domain=firefox.com&sz=32',
+    'Brave': 'https://cdnjs.cloudflare.com/ajax/libs/browser-logos/74.1.0/brave/brave.svg',
+    'default': 'https://www.google.com/s2/favicons?domain=google.com&sz=32'
+  };
+
   try {
-    const [statsRes, pagesRes, sourcesRes] = await Promise.all([
+    const [statsRes, pagesRes, sourcesRes, deviceRes] = await Promise.all([
       fetch('https://localhost:8443/api/analytics'),
       fetch('https://localhost:8443/api/analytics/pages'),
       fetch('https://localhost:8443/api/analytics/sources'),
+      fetch('https://localhost:8443/api/analytics/browsers'),
     ]);
 
-    if (!statsRes.ok || !pagesRes.ok || !sourcesRes.ok) {
+    if (!statsRes.ok || !pagesRes.ok || !sourcesRes.ok || !deviceRes.ok) {
       throw new Error('Server response was not ok');
     }
+
+    const deviceData = await deviceRes.json();
+    browsers.value = deviceData.map((item: any) => ({
+      label: item.browser,
+      value: item.count,
+      icon: iconMap[item.browser] || iconMap['default']
+    }));
 
     stats.value = await statsRes.json();
     pages.value = await pagesRes.json();
@@ -99,6 +120,19 @@ onMounted(() => loadStats());
         />
       </section>
 
+      <section class="mid-row">
+        <CustomCard
+            v-model:activeTab="activeBrowserTab"
+            :items="browsers"
+            valueLabel="Visitors"
+            :tabs="[
+              { label: 'Browser', value: 'Browser' },
+              { label: 'OS', value: 'OS' },
+              { label: 'Device', value: 'Device' }
+            ]"
+        />
+      </section>
+
       <section class="bottom-row">
         <Barchartpanel
             title="Top Pages"
@@ -126,6 +160,9 @@ onMounted(() => loadStats());
   min-height: 100vh;
   padding: 32px;
   color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .topbar {
@@ -194,17 +231,16 @@ onMounted(() => loadStats());
   cursor: not-allowed;
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
+.mid-row {
+  margin-bottom: 24px;
+  display: block; /* Zorg dat de kaart de volledige breedte pakt */
 }
 
-.bottom-row {
+.cards, .bottom-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
+  margin-bottom: 20px;
 }
 
 .empty {

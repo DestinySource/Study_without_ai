@@ -35,7 +35,7 @@ defineProps<Props>();
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
+  height: 3px;
 }
 
 /* Varianten & Glows */
@@ -47,8 +47,8 @@ defineProps<Props>();
   position: absolute;
   bottom: -30px;
   right: -30px;
-  width: 80px;
-  height: 80px;
+  width: 160px;
+  height: 120px;
   border-radius: 50%;
   opacity: 0.15;
   pointer-events: none;
