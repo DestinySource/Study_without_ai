@@ -3,6 +3,7 @@ package com.analytics.tool.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.analytics.tool.DTO.DeviceInfoDTO;
 import com.analytics.tool.DTO.SiteStatsDTO;
 import com.analytics.tool.DTO.VisitRequestDTO;
 import com.analytics.tool.service.AnalyticsService;
@@ -34,9 +35,19 @@ public class AnalyticsController {
         return ResponseEntity.ok(analyticsService.getVisitsPerPage());
     }
 
-    // Bezoeken per source
     @GetMapping("/analytics/sources")
     public ResponseEntity<List<Map<String, Object>>> getVisitsPerSource() {
         return ResponseEntity.ok(analyticsService.getVisitsPerSource());
+    }
+
+    @GetMapping("/analytics/browsers")
+    public ResponseEntity<List<Map<String, Object>>> getBrowserStats() {
+        return ResponseEntity.ok(analyticsService.getBrowserStats());
+    }
+
+    @PostMapping("/log-device")
+    public ResponseEntity<Void> logDevice(@RequestBody DeviceInfoDTO dto) {
+        analyticsService.saveDevice(dto);
+        return ResponseEntity.ok().build();
     }
 }
