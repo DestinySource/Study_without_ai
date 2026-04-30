@@ -10,4 +10,7 @@ import java.util.List;
 public interface DeviceInfoRepository extends JpaRepository<DeviceInfo, Long> {
     @Query("SELECT u.browser, COUNT(u) FROM DeviceInfo u GROUP BY u.browser")
     List<Object[]> getBrowserCounts();
+
+    @Query("SELECT u.os, COUNT(u) FROM DeviceInfo u GROUP BY u.os")
+    List<Object[]> getOsCounts();
 }

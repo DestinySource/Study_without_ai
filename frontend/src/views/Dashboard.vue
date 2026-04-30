@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import Statcard from '@/components/Statcard.vue';
 import Barchartpanel from '@/components/Barchartpanel.vue';
 import CustomCard from  '@/components/CustomCard.vue';
@@ -15,13 +15,19 @@ interface BarItem {
   count: number;
 }
 
-const activeBrowserTab = ref('Browser');
+const activeTab = ref('Browser');
 const stats = ref<SiteStats | null>(null);
 const pages = ref<BarItem[]>([]);
 const sources = ref<BarItem[]>([]);
 const browsers = ref<any[]>([]);
+const osData = ref<any[]>([]);
 const loading = ref(true);
 const error = ref('');
+
+const currentCategoryData = computed(() => {
+  if (activeTab.value === 'OS') return osData.value;
+  return browsers.value;
+});
 
 async function loadStats() {
   loading.value = true;
@@ -36,23 +42,41 @@ async function loadStats() {
     'default': 'https://www.google.com/s2/favicons?domain=google.com&sz=32'
   };
 
+  const osIconMap: Record<string, string> = {
+    'Windows': 'https://cdnjs.cloudflare.com/ajax/libs/browser-logos/74.1.0/archive/windows-10/windows-10.svg',
+    'MacOS': 'https://cdnjs.cloudflare.com/ajax/libs/simple-icons/15.16.0/apple.svg',
+    'Linux': 'https://cdnjs.cloudflare.com/ajax/libs/simple-icons/15.16.0/linux.svg',
+    'Linux x86_64': 'https://cdnjs.cloudflare.com/ajax/libs/simple-icons/15.16.0/linux.svg',
+    'Android': 'https://cdnjs.cloudflare.com/ajax/libs/simple-icons/15.16.0/android.svg',
+    'iOS': 'https://cdnjs.cloudflare.com/ajax/libs/simple-icons/15.16.0/ios.svg',
+    'default': 'https://www.google.com/s2/favicons?domain=google.com&sz=32'
+  };
+
   try {
-    const [statsRes, pagesRes, sourcesRes, deviceRes] = await Promise.all([
+    const [statsRes, pagesRes, sourcesRes, browserRes, osRes] = await Promise.all([
       fetch('https://localhost:8443/api/analytics'),
       fetch('https://localhost:8443/api/analytics/pages'),
       fetch('https://localhost:8443/api/analytics/sources'),
       fetch('https://localhost:8443/api/analytics/browsers'),
+      fetch('https://localhost:8443/api/analytics/os'),
     ]);
 
-    if (!statsRes.ok || !pagesRes.ok || !sourcesRes.ok || !deviceRes.ok) {
+    if (!statsRes.ok || !pagesRes.ok || !sourcesRes.ok || !browserRes.ok || !osRes.ok) {
       throw new Error('Server response was not ok');
     }
 
-    const deviceData = await deviceRes.json();
-    browsers.value = deviceData.map((item: any) => ({
+    const rawBrowsers = await browserRes.json();
+    browsers.value = rawBrowsers.map((item: any) => ({
       label: item.browser,
       value: item.count,
       icon: iconMap[item.browser] || iconMap['default']
+    }));
+
+    const rawOs = await osRes.json();
+    osData.value = rawOs.map((item: any) => ({
+      label: item.os,
+      value: item.count,
+      icon: osIconMap[item.os] || osIconMap['default']
     }));
 
     stats.value = await statsRes.json();
@@ -122,8 +146,8 @@ onMounted(() => loadStats());
 
       <section class="mid-row">
         <CustomCard
-            v-model:activeTab="activeBrowserTab"
-            :items="browsers"
+            v-model:activeTab="activeTab"
+            :items="currentCategoryData"
             valueLabel="Visitors"
             :tabs="[
               { label: 'Browser', value: 'Browser' },

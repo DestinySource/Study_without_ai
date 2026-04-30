@@ -78,4 +78,14 @@ public class AnalyticsService {
                 .collect(Collectors.toList());
     }
 
+    public List<Map<String, Object>> getOsStats() {
+        return deviceInfoRepository.getOsCounts()
+                .stream()
+                .map(row -> Map.of(
+                        "os", row[0] == null ? "Unknown" : row[0],
+                        "count", row[1]
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -45,6 +45,11 @@ public class AnalyticsController {
         return ResponseEntity.ok(analyticsService.getBrowserStats());
     }
 
+    @GetMapping("/analytics/os")
+    public ResponseEntity<List<Map<String, Object>>> getOsStats() {
+        return ResponseEntity.ok(analyticsService.getOsStats());
+    }
+
     @PostMapping("/log-device")
     public ResponseEntity<Void> logDevice(@RequestBody DeviceInfoDTO dto) {
         analyticsService.saveDevice(dto);
